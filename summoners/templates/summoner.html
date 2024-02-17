@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ summoner.game_name }} #{{ summoner.tag_line }} Summoner Stats - LoL{% endblock %}
+
+{% block head %}
+
+<style>
+    .profile-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 40px;
+    }
+
+    .profile-icon {
+        position: relative;
+        display: block;
+        flex-basis: 100px;
+        height: 100px;
+        width: 100px;
+        margin-right: 40px;
+    }
+
+    .profile-image {
+        display: inline;
+        height: 100px;
+        max-width: 100%;
+        border-radius: 20px;
+        overflow-y: clip;
+        overflow-x: clip;
+    }
+
+    .div-profile-level {
+        display: block;
+        height: 20px;
+        margin-top: -15px;
+        text-align: center;
+    }
+
+    .profile-level {
+        background-color: black;
+        color: white;
+        display: inline-block;
+        font-size: 12px;
+        line-height: 20px;
+        border-radius: 10px;
+        padding: 0px 8px 0px 8px;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+{% if not summoner %}
+
+<h4 class="text-center">Results not found.</h4>
+
+{% else %}
+<div class="container-fluid d-flex justify-content-center">
+
+    <div style="width: 1080px;">
+
+        <div class="profile-header">
+            <div class="profile-icon">
+                <img class="profile-image"
+                    src="https://ddragon.leagueoflegends.com/cdn/14.2.1/img/profileicon/{{ summoner.profile_icon_id }}.png"
+                    alt="Profile Icon">
+                <div class="div-profile-level">
+                    <span class="profile-level">{{ summoner.level }}</span>
+                </div>
+            </div>
+
+            <div>
+                <h4>
+                    <span>{{ summoner.game_name }}</span>
+                    <span style="opacity: 70%;">#{{ summoner.tag_line }}</span>
+                </h4>
+
+                {% if summoner.name != '' %}
+                <p>Prev: {{ summoner.name }}</p>
+                {% endif %}
+
+                <button class="btn btn-outline-primary">Update</button>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-4" style="display: grid; grid-gap: 10px;">
+
+                <div class="card">
+                    <div class="card-body">
+
+                        <h6 class="text-body-secondary">Ranked Solo</h6>
+                        <hr>
+
+                        <div class="d-flex align-items-center justify-content-between">
+                            <img width="80px" src="{{ ranked_solo_duo.ranked_emblem }}">
+
+                            <div
+                                style="position: relative; display: flex; justify-content: space-between; width: 100%; margin-left: 10px;">
+                                <div style="position: relative;">
+                                    <p class="m-0">
+                                        {{ ranked_solo_duo.tier }}
+
+                                        {% if ranked_solo_duo.tier not in ranked_solo_duo.highs_tier %}
+                                        {{ ranked_solo_duo.rank }}
+                                        {% endif %}
+
+                                    </p>
+                                    <p style="font-size: small;" class="m-0">{{ ranked_solo_duo.pdls }} LP</p>
+                                </div>
+
+                                <div>
+                                    <p style="text-align: right; font-size: small;" class="m-0">
+                                        {{ ranked_solo_duo.wins }}W {{ ranked_solo_duo.losses }}L
+                                    </p>
+                                    <p style="text-align: right; font-size: small;" class="m-0">
+                                        Win Rate {{ ranked_solo_duo.win_rate }}%
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+
+                        <h6 class="text-body-secondary">Ranked Flex</h6>
+                        <hr>
+
+                        <div class="d-flex align-items-center">
+                            <img width="80px" src="{{ ranked_flex.ranked_emblem }}">
+
+                            <div
+                                style="position: relative; display: flex; justify-content: space-between; width: 100%; margin-left: 10px;">
+                                <div>
+                                    <p class="m-0">
+                                        {{ ranked_flex.tier }}
+
+                                        {% if ranked_flex.tier not in ranked_flex.highs_tier %}
+                                        {{ ranked_flex.rank }}
+                                        {% endif %}
+
+                                    </p>
+                                    <p style="font-size: small;" class="m-0">
+                                        {{ ranked_flex.pdls }} LP
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p style="text-align: right; font-size: small;" class="m-0">
+                                        {{ ranked_flex.wins }}W {{ ranked_flex.losses }}L
+                                    </p>
+                                    <p style="text-align: right; font-size: small;" class="m-0">
+                                        Win Rate {{ ranked_flex.win_rate }}%
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-8">
+
+                <div style="display: -ms-inline-grid; grid-gap: 10px;">
+                    <input type="radio" class="btn-check" name="options-base" id="all" autocomplete="off" checked>
+                    <label class="btn" for="all">All</label>
+
+                    <input type="radio" class="btn-check" name="options-base" id="rankeSoloDuo" autocomplete="off">
+                    <label class="btn" for="rankeSoloDuo">Ranked Solo/Duo</label>
+
+                    <input type="radio" class="btn-check" name="options-base" id="rankeFlex" autocomplete="off">
+                    <label class="btn" for="rankeFlex">Ranked Flex</label>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+{% endif %}
+
+{% endblock %}
