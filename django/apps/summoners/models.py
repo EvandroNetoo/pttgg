@@ -14,6 +14,10 @@ class Summoner(models.Model):
     profile_icon_id = models.IntegerField()
     level = models.IntegerField()
 
+    @property
+    def icon_url(self):
+        return f'https://ddragon.leagueoflegends.com/cdn/14.2.1/img/profileicon/{ self.profile_icon_id }.png'
+
     def __str__(self) -> str:
         return f'{self.game_name} #{self.tag_line}'
 
