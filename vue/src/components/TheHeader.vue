@@ -52,19 +52,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-header {
-    position: relative;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 1080px;
-    border-bottom: var(--color-border-hover) solid 1px;
-}
-
-
 .header-container {
     display: flex;
     align-items: center;
@@ -83,7 +70,17 @@ header {
     align-items: center;
 }
 
-
+header {
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1080px;
+    border-bottom: var(--color-border-hover) solid 1px;
+}
 
 select {
     height: 100%;

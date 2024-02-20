@@ -24,6 +24,8 @@ class RankedOut(ModelSchema):
             'wins',
             'losses',
         ]
+    win_rate: int
+    ranked_emblem: str
 
 class SummonerInfosOut(Schema):
     summoner: SummonerOut

@@ -46,7 +46,6 @@ class RiotLolApi:
         )
         url = base_url + endpoint
         response = self._get(url)
-        print(self.riot_token)
         return response.json().get('puuid')
 
     def get_summoner_by_puuid(self, puuid: str, region: str) -> dict:

@@ -1,30 +1,57 @@
 <script setup>
 import TheHeader from '@/components/TheHeader.vue';
-import ProfileIcon from '@/components/ProfileIcon.vue';
+import ProfileHeader from '@/components/ProfileHeader.vue';
+import ProfileHeaderSkeleton from'@/components/ProfileHeaderSkeleton.vue';
+import RankedCard from '@/components/RankedCard.vue';
+import RankedCardSkeleton from '@/components/RankedCardSkeleton.vue';
 </script>
 
 <template>
 	<TheHeader class="the-header" />
 
+	<ProfileHeader v-if="!loading" class="profile-header" :summonerData="summonerData" />
+	<ProfileHeaderSkeleton v-else class="profile-header" />
+
 	<div class="container">
 		<main>
-			<ProfileIcon />
+			<div v-if="!loading" style="min-width: 332px; display: grid; grid-gap: 10px">
+					<RankedCard rankedName="Ranked Solo" :rankedInfos="rankedSoloDuo"></RankedCard>
+					<RankedCard rankedName="Ranked Flex" :rankedInfos="rankedFlex"></RankedCard>
+			</div>
+			<div v-else style="min-width: 332px; display: grid; grid-gap: 10px">
+				<RankedCardSkeleton rankedName="Ranked Solo"></RankedCardSkeleton>
+				<RankedCardSkeleton rankedName="Ranked Flex"></RankedCardSkeleton>
+			</div>
+			<div style="
+				width: 100%; 
+				height: 100%; 
+				background-color: var(--color-border); 
+				margin-left: 10px; border-radius: 5px;
+				border: var(--color-border-hover) 1px solid;">
+
+			</div>
 		</main>
 	</div>
 </template>
 
-<style>
+<style scoped>
 .container {
 	display: flex;
 	justify-content: center;
-}
-
-.the-header {
-	margin-bottom: 20px;
+	min-width: 1080px;
 }
 
 main {
 	min-width: 1080px;
+	display: flex;
+}
+
+.the-header {
+	margin-bottom: 10px;
+}
+
+.profile-header {
+	margin-bottom: 10px;
 }
 </style>
 
@@ -32,13 +59,37 @@ main {
 export default {
 	data() {
 		return {
-			summonerData: null,
-			rankedSoloDuo: null,
-			rankedFlex: null,
+			summonerData: {
+				game_name: null,
+				tag_line: null,
+				name: null,
+				profile_icon_id: null,
+				level: null,
+				icon_url: null,
+			},
+			rankedSoloDuo: {
+				tier: null,
+				rank: null,
+				pdls: null,
+				wins: null,
+				losses: null,
+				win_rate: null,
+				ranked_emblem: null,
+			},
+			rankedFlex: {
+				tier: null,
+				rank: null,
+				pdls: null,
+				wins: null,
+				losses: null,
+				win_rate: null,
+				ranked_emblem: null,
+			},
+			loading: true,
 		}
 	},
-	created() {
-		fetch('http://127.0.0.1:8000/api/summoners/br/ptt-bella')
+	mounted() {
+		fetch(`http://127.0.0.1:8000/api/summoners/${this.$route.params.region}/${this.$route.params.gameNameTagLine}`)
 			.then(response => {
 				if (!response.ok) {
 					throw new Error('Falha ao buscar dados da API');
@@ -49,6 +100,7 @@ export default {
 				this.summonerData = data.summoner;
 				this.rankedSoloDuo = data.ranked_solo_duo;
 				this.rankedFlex = data.ranked_flex;
+				this.loading = false
 				console.log(data)
 			})
 			.catch(error => {
