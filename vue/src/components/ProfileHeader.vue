@@ -16,7 +16,7 @@ const props = defineProps(['summonerData'])
 
                 <p v-if="summonerData.name != ''">Prev: {{ summonerData.name }}</p>
 
-                <button class="update-button">Update</button>
+                <button @click="$emit('updateSummoner')" class="update-button">Update</button>
             </div>
         </main>
     </div>
@@ -24,7 +24,8 @@ const props = defineProps(['summonerData'])
 
 <script>
 export default {
-
+    methods: {
+    }
 }
 </script>
 
@@ -35,6 +36,7 @@ export default {
     background-color: var(--color-border);
     min-width: 1080px;
 }
+
 main {
     min-width: 1080px;
     padding: 20px 0;
@@ -52,6 +54,7 @@ main {
     margin-top: 5px;
     transition: .2s;
 }
+
 .update-button:hover {
     border: white 3px solid;
     background-color: hsla(160, 100%, 37%, 1);
